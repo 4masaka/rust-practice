@@ -1,6 +1,24 @@
 fn main() {
-    let s1 = String::from("hello");
-    let s2 = s1.clone();
+    let s = String::from("hello"); // sがスコープに入る
 
-    println!("s1 = {}, s2 = {}", s1, s2);
-}
+    takes_ownership(s); // sの値が関数にムーブされ...
+                        // ... ここではもう有効ではない
+
+    let x = 5; // xがスコープに入る
+
+    makes_copy(x); // xも関数にムーブされるが、
+                   // i32はCopyなので、この後にxを使っても
+                   // 大丈夫
+} // ここでxがスコープを抜け、sも。だけど、sの値はムーブされてるので、何も特別なことはない。
+  //
+
+fn takes_ownership(some_string: String) {
+    // some_stringがスコープに入る。
+    println!("{}", some_string);
+} // ここでsome_stringがスコープを抜け、`drop`が呼ばれる。後ろ盾してたメモリが解放される。
+  //
+
+fn makes_copy(some_integer: i32) {
+    // some_integerがスコープに入る
+    println!("{}", some_integer);
+} // ここでsome_integerがスコープを抜ける。何も特別なことはない。

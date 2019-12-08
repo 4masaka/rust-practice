@@ -1,9 +1,13 @@
 fn main() {
-    let number = 3;
-
-    if number < 5 {
-        println!("condition was true");       // 条件は真でした
-    } else {
-        println!("condition was false");      // 条件は偽でした
+    for i in 1..101 {
+        if i % 15 == 0 {
+            println!("FizzBuzz");
+        } else if i % 5 == 0 {
+            println!("Buzz");
+        } else if i % 3 == 0 {
+            println!("Fizz");
+        } else {
+            println!("{}", i);
+        }
     }
 }

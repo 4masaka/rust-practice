@@ -1,24 +1,29 @@
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+    fn square(size: u32) -> Rectangle {
+        Rectangle { width: size, height: size }
+    }
+}
+
 fn main() {
-    let s = String::from("hello"); // sがスコープに入る
+    let rect1 = Rectangle { width: 30, height: 50 };
+    let rect2 = Rectangle { width: 10, height: 40 };
+    let rect3 = Rectangle { width: 60, height: 45 };
+    let rect4 = Rectangle::square(20);
 
-    takes_ownership(s); // sの値が関数にムーブされ...
-                        // ... ここではもう有効ではない
-
-    let x = 5; // xがスコープに入る
-
-    makes_copy(x); // xも関数にムーブされるが、
-                   // i32はCopyなので、この後にxを使っても
-                   // 大丈夫
-} // ここでxがスコープを抜け、sも。だけど、sの値はムーブされてるので、何も特別なことはない。
-  //
-
-fn takes_ownership(some_string: String) {
-    // some_stringがスコープに入る。
-    println!("{}", some_string);
-} // ここでsome_stringがスコープを抜け、`drop`が呼ばれる。後ろ盾してたメモリが解放される。
-  //
-
-fn makes_copy(some_integer: i32) {
-    // some_integerがスコープに入る
-    println!("{}", some_integer);
-} // ここでsome_integerがスコープを抜ける。何も特別なことはない。
+    // rect1にrect2ははまり込む？
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+    println!("Can rect1 hold rect4? {}", rect1.can_hold(&rect4));
+}
